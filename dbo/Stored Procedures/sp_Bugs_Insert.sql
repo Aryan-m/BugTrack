@@ -3,6 +3,6 @@
 	, @description nvarchar(max)
 AS
 BEGIN
-	INSERT INTO dbo.Bugs (Title, Description)
-	VALUES (@title, @description)
+	INSERT INTO dbo.Bugs (Title, Description, CreatedByUserID)
+	VALUES (@title, @description, 999)
 END

@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[sp_Bugs_Delete]
-	@id int
+	@ID int
 AS
 BEGIN
 	UPDATE dbo.Bugs
 	SET Active = 0
 	  , LastModifiedOn = GETDATE()
-	WHERE ID = @id
+	WHERE ID = @ID
 END

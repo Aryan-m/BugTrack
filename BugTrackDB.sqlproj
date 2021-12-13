@@ -67,6 +67,10 @@
     <Build Include="dbo\Stored Procedures\sp_Bugs_Delete.sql" />
     <Build Include="dbo\Stored Procedures\sp_Bugs_Insert.sql" />
     <Build Include="dbo\Stored Procedures\sp_Bugs_Update.sql" />
+    <Build Include="dbo\Tables\ImageFiles.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ImageFiles_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ImageFiles_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ImageFiles_Read.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BugTrackDB.publish.xml" />
