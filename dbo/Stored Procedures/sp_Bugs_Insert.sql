@@ -5,4 +5,6 @@ AS
 BEGIN
 	INSERT INTO dbo.Bugs (Title, Description, CreatedByUserID)
 	VALUES (@title, @description, 999)
+
+	select SCOPE_IDENTITY()
 END
