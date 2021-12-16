@@ -7,6 +7,4 @@ AS BEGIN
 		   (BugID = @BugID)
 		or (ID    = @ID)
 	)
-
-	return @ID
 END
