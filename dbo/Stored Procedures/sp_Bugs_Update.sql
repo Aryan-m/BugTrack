@@ -8,6 +8,6 @@ BEGIN
 	SET [Title] = @title
 	  , [Description] = @description
 	WHERE ID = @ID
-	
+
 	return @ID
 END
