@@ -1,0 +1,19 @@
+﻿<MudNavMenu Class="mud-toolbar-dense" Color="Color.Darken1" Dense="true">
+    <MudNavLink OnClick="@(() => navigateToRoute(Classes.Bugs.URL_VIEW))" Href="@Classes.Bugs.URL_VIEW">
+        View
+    </MudNavLink>
+    <MudNavGroup Title="Settings" Expanded="false">
+        <MudNavLink Href="/users">Users</MudNavLink>
+        <MudNavLink Href="/security">Security</MudNavLink>
+    </MudNavGroup>
+</MudNavMenu>
+
+@code {
+    [Parameter] public EventCallback<string> CloseDrawer { get; set; }
+
+    private void navigateToRoute(string url)
+    {
+        NavManager.NavigateTo(url);
+        CloseDrawer.InvokeAsync("");
+    }
+}

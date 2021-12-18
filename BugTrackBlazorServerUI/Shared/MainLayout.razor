@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider FullWidth="true" 
+                   MaxWidth="MaxWidth.Large" />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Style="@($"background:{Colors.Grey.Darken1}; color: #94ffdb;")" 
+               Fixed="false" Dense="true" Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" 
+                       OnClick="@((e) => DrawerToggle())" />
+        <a class="d-flex bt-home-btn" href="/">
+            <MudIcon Icon="fas fa-dragon" Class="ml-2" Style="@($"color: #94ffdb;")" Size="Size.Large" />
+            <strong class="ml-3">Bug Track</strong>
+        </a>
+    </MudAppBar>
+    <MudDrawer Style="@($"background:{Colors.Grey.Lighten3}; ")" @bind-Open="@_drawerOpen" 
+               ClipMode="DrawerClipMode.Always" Elevation="2">
+        <NavMenu CloseDrawer="DrawerToggle" />
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large" Class="glassy-container">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

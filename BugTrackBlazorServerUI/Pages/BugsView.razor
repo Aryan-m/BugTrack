@@ -1,0 +1,121 @@
+﻿@attribute [Microsoft.AspNetCore.Components.RouteAttribute(href)]
+@page "/"
+
+@inject IBugsData bugsDB
+@inject IDialogService DialogService
+
+<MudTable Items="@Bugs" Dense="true" Hover="true" Bordered="false" Striped="true"
+          SortLabel="Sort By" Filter="new Func<BugModel,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1"
+          FixedHeader="true" Loading="true">
+    <ToolBarContent>
+
+        @*Add new Button*@
+
+        <MudIconButton Size="Size.Large"
+                       Icon="@Icons.Material.Filled.Add"
+                       Style="@($"color:{Colors.Indigo.Accent2};")"
+                       Edge="Edge.Start"
+                       OnClick="@((e) => initiateAddNewBugDialog())" />
+
+        <div class="mt-0 w-50 ml-auto">
+            <MudTextField @bind-Value="searchString1" Placeholder="Search"
+                          Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                          IconSize="Size.Medium" FullWidth="false" Immediate="true">
+            </MudTextField>
+        </div>
+
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh style="width: 20vw;"></MudTh>
+        <MudTh>
+            <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<BugModel, object>(x => x.Title)">
+                <strong>Title</strong>
+            </MudTableSortLabel>
+        </MudTh>
+        <MudTh><strong>Description</strong></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                           Size="Size.Medium"
+                           Title="Delete"
+                           Style="@($"color:{Colors.Red.Accent4};")"
+                           OnClick="@(() => deleteBug(context.ID))"
+                           Class="ma-2">
+            </MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                           Size="Size.Medium"
+                           Title="Edit"
+                           Style="@($"color:{Colors.Orange.Accent4};")"
+                           OnClick="@( (x) => launchEditBugDialog(context.ID))"
+                           Class="ma-2">
+            </MudIconButton>
+        </MudTd>
+        <MudTd DataLabel="Title">@context.Title</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    private const string href = Classes.Bugs.URL_VIEW;
+    private string searchString1 = "";
+    private string searchString2 = "";
+    private BugModel selectedItem1 = null;
+    private BugModel selectedItem2 = null;
+    private List<BugModel> selectedItems = new List<BugModel>();
+    private bool FilterFunc1(BugModel element) => FilterFunc(element, searchString1);
+    private bool FilterFunc2(BugModel element) => FilterFunc(element, searchString2);
+    private List<BugModel> Bugs = new List<BugModel>();
+
+    private async Task refreshBugList() {
+        Bugs = (await bugsDB.View(null)).ToList();
+    }
+
+    private async Task deleteBug(long BugID) {
+        await bugsDB.Delete(BugID);
+        await refreshBugList();
+    }
+
+    // filtering for bug table (used in search bar)
+    private bool FilterFunc(BugModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+    // open dialog for add new
+    private async Task initiateAddNewBugDialog()
+    {
+
+        var dialog = DialogService.Show<BugAddForm>("Add New Bug");
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await refreshBugList();
+        }
+    }
+
+    // open dialog for edit
+    private async Task launchEditBugDialog(long BugID)
+    {
+        var dialog = DialogService.Show<BugAddForm>("Edit Bug", new DialogParameters { ["BugID"] = BugID });
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await refreshBugList();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await refreshBugList();
+    }
+}

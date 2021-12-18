@@ -1,0 +1,86 @@
+﻿@inject IBugsData bugsDB
+@inject IImageFilesData imageFilesDB
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField @bind-Value="newBug.Title" Label="Title" />
+        <MudTextField @bind-Value="@newBug.Description" Label="Description" Lines="5" />
+        <div>
+            <FileUpload onFileUpload="@((imgFiles) => saveUploadedFiles(imgFiles))" uploadedFiles="imageFiles" />
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="saveBug">Submit</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public long? BugID { get; set; }
+
+    private BugModel newBug = new BugModel();
+    private List<ImageFileModel> imageFiles = new List<ImageFileModel>();
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    // indicate save was successful
+    private void indicateSuccess()
+    {
+        Snackbar.Add("Bug Saved", Severity.Success);
+        MudDialog.Close(DialogResult.Ok(newBug.ID));
+    }
+
+    // indicate something went wrong
+    private void indicateError(string errMsg)
+    {
+        Snackbar.Add(errMsg, Severity.Error);
+    }
+
+    private async Task saveBug()
+    {
+        try {
+            // Add New
+            if (newBug.ID == 0) {
+                await bugsDB.Insert(newBug, imageFiles);
+            } 
+            // Edit
+            else
+            {
+                await bugsDB.Update(newBug, imageFiles);
+            }
+            indicateSuccess();
+        } catch(Exception ex) {
+            indicateError("Error");
+        }
+    }
+
+    // event callback sent to fileUpload component to save uploaded files
+    protected void saveUploadedFiles(List<ImageFileModel> imgFiles)
+    {
+        imageFiles = imgFiles;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // if edit mode, load bug and related files
+        if (BugID != null)
+        {
+            newBug = (await bugsDB.View(BugID)).ToList().FirstOrDefault();
+
+            if (newBug.ID == 0) MudDialog.Cancel();
+
+            imageFiles = (await imageFilesDB.View(null, newBug.ID)).ToList();
+        }
+    }
+}
