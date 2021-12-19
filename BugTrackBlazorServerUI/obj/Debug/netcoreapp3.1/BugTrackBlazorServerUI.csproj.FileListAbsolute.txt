@@ -81,3 +81,5 @@ C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBla
 C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\bin\Debug\netcoreapp3.1\BlazorInputFile.dll
 C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\RazorDeclaration\Shared\FileUpload.razor.g.cs
 C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\Razor\Shared\FileUpload.razor.g.cs
+C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\RazorDeclaration\Shared\ConfirmDialog.razor.g.cs
+C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\Razor\Shared\ConfirmDialog.razor.g.cs

@@ -184,7 +184,7 @@ using System.IO;
         {
             newBug = (await bugsDB.View(BugID)).ToList().FirstOrDefault();
 
-            if (newBug.ID == 0) MudDialog.Cancel();
+            if (newBug == null || newBug.ID == 0) MudDialog.Cancel();
 
             imageFiles = (await imageFilesDB.View(null, newBug.ID)).ToList();
         }

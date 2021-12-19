@@ -5,17 +5,26 @@
 @inject IDialogService DialogService
 
 <MudTable Items="@Bugs" Dense="true" Hover="true" Bordered="false" Striped="true"
-          SortLabel="Sort By" Filter="new Func<BugModel,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1"
+          SortLabel="Sort By" Filter="new Func<BugModel,bool>(filterBugs1)" @bind-SelectedItem="selectedItem1"
           FixedHeader="true" Loading="true">
     <ToolBarContent>
 
+        @*Refresh Button*@
+
+        <MudIconButton Size="Size.Large"
+                       Icon="@Icons.Material.Filled.Refresh"
+                       Style="@($"color:{Colors.Green.Accent4};")"
+                       Edge="Edge.Start"
+                       OnClick="@(async (e) => await refreshBugList())" />
         @*Add new Button*@
 
         <MudIconButton Size="Size.Large"
                        Icon="@Icons.Material.Filled.Add"
                        Style="@($"color:{Colors.Indigo.Accent2};")"
                        Edge="Edge.Start"
-                       OnClick="@((e) => initiateAddNewBugDialog())" />
+                       OnClick="@((e) => launchAddNewBugDialog())" />
+
+        @*search box*@
 
         <div class="mt-0 w-50 ml-auto">
             <MudTextField @bind-Value="searchString1" Placeholder="Search"
@@ -40,7 +49,7 @@
                            Size="Size.Medium"
                            Title="Delete"
                            Style="@($"color:{Colors.Red.Accent4};")"
-                           OnClick="@(() => deleteBug(context.ID))"
+                           OnClick="@(() => launchDeleteBugDialog(context.ID, context.Title))"
                            Class="ma-2">
             </MudIconButton>
             <MudIconButton Icon="@Icons.Material.Filled.Edit"
@@ -66,8 +75,8 @@
     private BugModel selectedItem1 = null;
     private BugModel selectedItem2 = null;
     private List<BugModel> selectedItems = new List<BugModel>();
-    private bool FilterFunc1(BugModel element) => FilterFunc(element, searchString1);
-    private bool FilterFunc2(BugModel element) => FilterFunc(element, searchString2);
+    private bool filterBugs1(BugModel element) => filterBugs(element, searchString1);
+    private bool filterBugs2(BugModel element) => filterBugs(element, searchString2);
     private List<BugModel> Bugs = new List<BugModel>();
 
     private async Task refreshBugList() {
@@ -79,18 +88,21 @@
         await refreshBugList();
     }
 
-    // filtering for bug table (used in search bar)
-    private bool FilterFunc(BugModel element, string searchString)
+    private void launchDeleteBugDialog(long BugID, string BugTitle)
     {
-        if (string.IsNullOrWhiteSpace(searchString))
-            return true;
-        if (element.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        return false;
+        var parameters = new DialogParameters();
+        parameters.Add("ContentCallback", (Func<Task>)(async () => await deleteBug(BugID)));
+        parameters.Add("ContentText", $"Are you sure you want to delete \"{ BugTitle }\"?");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        DialogService.Show<ConfirmDialog>("Delete", parameters, options);
     }
 
     // open dialog for add new
-    private async Task initiateAddNewBugDialog()
+    private async Task launchAddNewBugDialog()
     {
 
         var dialog = DialogService.Show<BugAddForm>("Add New Bug");
@@ -112,6 +124,16 @@
         {
             await refreshBugList();
         }
+    }
+
+    // filtering for bug table (used in search bar)
+    private bool filterBugs(BugModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
     }
 
     protected override async Task OnInitializedAsync()
