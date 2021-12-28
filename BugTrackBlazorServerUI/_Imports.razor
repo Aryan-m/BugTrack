@@ -13,6 +13,10 @@
 @using System.Linq
 @using BlazorInputFile
 @using System.IO
+@using Areas.Identity
 
 @inject IDialogService    DialogService
 @inject NavigationManager NavManager
+
+@*Authorization logic for entire app*@
+@attribute [Authorize] 

@@ -1,21 +1,25 @@
 ﻿@inherits LayoutComponentBase
 
+@inject NavigationManager Navigation
+
 <MudThemeProvider />
-<MudDialogProvider FullWidth="true" 
+<MudDialogProvider FullWidth="true"
                    MaxWidth="MaxWidth.Large" />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Style="@($"background:{Colors.Grey.Darken1}; color: #94ffdb;")" 
+    <MudAppBar Style="@($"background:{Colors.Grey.Darken1}; color: #94ffdb;")"
                Fixed="false" Dense="true" Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" 
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
                        OnClick="@((e) => DrawerToggle())" />
         <a class="d-flex bt-home-btn" href="/">
             <MudIcon Icon="fas fa-dragon" Class="ml-2" Style="@($"color: #94ffdb;")" Size="Size.Large" />
             <strong class="ml-3">Bug Track</strong>
         </a>
+        <MudSpacer />
+        <div class="ml-auto"><LoginDisplay /></div>
     </MudAppBar>
-    <MudDrawer Style="@($"background:{Colors.Grey.Lighten3}; ")" @bind-Open="@_drawerOpen" 
+    <MudDrawer Style="@($"background:{Colors.Grey.Lighten3}; ")" @bind-Open="@_drawerOpen"
                ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu CloseDrawer="DrawerToggle" />
     </MudDrawer>
@@ -32,5 +36,19 @@
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    // authorization - redirect to log in if user not au
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        var user = (await AuthStat).User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            Navigation.NavigateTo("Identity/Account/Login?returnUrl=" +
+            Uri.EscapeDataString(Navigation.Uri), true);
+        }
     }
 }

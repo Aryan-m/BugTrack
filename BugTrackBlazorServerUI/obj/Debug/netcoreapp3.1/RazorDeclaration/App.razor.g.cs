@@ -116,6 +116,20 @@ using System.IO;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 16 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+using Areas.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 22 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+[Authorize]
+
+#line default
+#line hidden
+#nullable disable
     public partial class App : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -123,6 +137,23 @@ using System.IO;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 14 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\App.razor"
+       
+    [Parameter]
+    public TokenProvider InitialState { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        TokenProvider.xsrfToken = InitialState.xsrfToken;
+
+        return base.OnInitializedAsync();
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private TokenProvider TokenProvider { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IDialogService DialogService { get; set; }
     }

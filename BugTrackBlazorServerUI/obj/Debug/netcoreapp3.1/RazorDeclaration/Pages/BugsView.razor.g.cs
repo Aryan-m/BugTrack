@@ -117,6 +117,20 @@ using System.IO;
 #line hidden
 #nullable disable
 #nullable restore
+#line 16 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+using Areas.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 22 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+[Authorize]
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 1 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\BugsView.razor"
            [Microsoft.AspNetCore.Components.RouteAttribute(href)]
 

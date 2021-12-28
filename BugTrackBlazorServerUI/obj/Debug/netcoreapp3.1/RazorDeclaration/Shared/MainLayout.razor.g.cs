@@ -116,6 +116,20 @@ using System.IO;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 16 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+using Areas.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 22 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+[Authorize]
+
+#line default
+#line hidden
+#nullable disable
     public partial class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998
@@ -124,7 +138,7 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 29 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Shared\MainLayout.razor"
+#line 33 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Shared\MainLayout.razor"
        
     bool _drawerOpen = false;
 
@@ -133,9 +147,24 @@ using System.IO;
         _drawerOpen = !_drawerOpen;
     }
 
+    // authorization - redirect to log in if user not au
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        var user = (await AuthStat).User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            Navigation.NavigateTo("Identity/Account/Login?returnUrl=" +
+            Uri.EscapeDataString(Navigation.Uri), true);
+        }
+    }
+
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager Navigation { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IDialogService DialogService { get; set; }
     }

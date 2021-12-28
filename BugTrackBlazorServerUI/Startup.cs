@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MudBlazor.Services;
+using BugTrackBlazorServerUI.Areas.Identity;
 
 namespace BugTrackBlazorServerUI
 {
@@ -31,6 +32,7 @@ namespace BugTrackBlazorServerUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<TokenProvider>();
             services.AddScoped<ISqlDataAccess, SqlDataAccess>();
             services.AddScoped<IImageFilesData, ImageFilesData>();
             services.AddScoped<IBugsData, BugsData>();
@@ -57,9 +59,12 @@ namespace BugTrackBlazorServerUI
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
