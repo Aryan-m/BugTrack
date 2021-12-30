@@ -2,10 +2,10 @@
 @model LoginModel
 
 <div class="row">
-    <div class="col-md-4">
-        <section>
+    <div class="col-12 d-flex justify-content-center">
+        <section class="glossy-background p-5 rounded mt-5">
             <form id="account" method="post">
-                <div asp-validation-summary="All" class="text-danger"></div>
+                @*<div asp-validation-summary="All" class="text-danger"></div>*@
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" class="form-control" />
@@ -24,11 +24,9 @@
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
-                </div>
-                <div class="form-group">
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+                <div class="form-group row">
+                    <button type="submit" class="btn btn-baby-green col-5 font-weight-bold">Login</button>
+                    <a class="btn btn-baby-blue col-5 offset-2 font-weight-bold" role="button" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
                 </div>
 
             </form>
