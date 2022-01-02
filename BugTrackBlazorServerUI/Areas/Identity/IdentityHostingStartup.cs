@@ -19,7 +19,7 @@ namespace BugTrackBlazorServerUI.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("BugTrackBlazorServerUIContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<BugTrackBlazorServerUIContext>();
             });
         }
