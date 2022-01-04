@@ -170,6 +170,14 @@ html, body {
     color: #ff7d7d !important;
 }
 
+.app-header-color {
+    color: #94ffdb;
+}
+
+.app-header-button {
+    background-color: #5a5a5a;
+}
+
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
         display: none;

@@ -4,17 +4,20 @@
 
 <AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manage/Index">
-            Hello, @context.User.Identity.Name!
-        </a>
-        <form action="/Identity/Account/Logout?returnUrl=%2F" method="post">
-            <button class="nav-link btn btn-link" type="submit">Logout</button>
-            <input name="__RequestVerificationToken" type="hidden"
-                   value="@TokenProvider.xsrfToken">
-        </form>
+        <div class="d-flex align-items-center ml-auto">
+            <a class="font-weight-bold app-header-color mr-2" href="Identity/Account/Manage/Index">
+                @context.User.Identity.Name
+            </a>
+            <form action="/Identity/Account/Logout?returnUrl=%2F" method="post">
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"                           
+                           Class="app-header-color app-header-button">
+                    Logout
+                </MudButton>
+
+                <input name="__RequestVerificationToken" type="hidden"
+                       value="@TokenProvider.xsrfToken">
+            </form>
+        </div>
     </Authorized>
-    <NotAuthorized>
-        <a href="Identity/Account/Register">Register</a>
-        <a href="Identity/Account/Login">Login</a>
-    </NotAuthorized>
 </AuthorizeView>
