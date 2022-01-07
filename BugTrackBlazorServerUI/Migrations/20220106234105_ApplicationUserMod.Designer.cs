@@ -4,14 +4,16 @@ using BugTrackBlazorServerUI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BugTrackBlazorServerUI.Migrations
 {
     [DbContext(typeof(BugTrackBlazorServerUIContext))]
-    partial class BugTrackBlazorServerUIContextModelSnapshot : ModelSnapshot
+    [Migration("20220106234105_ApplicationUserMod")]
+    partial class ApplicationUserMod
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -4,14 +4,16 @@ using BugTrackBlazorServerUI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BugTrackBlazorServerUI.Migrations
 {
     [DbContext(typeof(BugTrackBlazorServerUIContext))]
-    partial class BugTrackBlazorServerUIContextModelSnapshot : ModelSnapshot
+    [Migration("20220106054738_ApplicationUser")]
+    partial class ApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +31,6 @@ namespace BugTrackBlazorServerUI.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -79,6 +78,9 @@ namespace BugTrackBlazorServerUI.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<string>("displayName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

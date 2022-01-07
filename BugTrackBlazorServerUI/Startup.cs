@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MudBlazor.Services;
 using BugTrackBlazorServerUI.Areas.Identity;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BugTrackBlazorServerUI
 {
@@ -36,6 +37,7 @@ namespace BugTrackBlazorServerUI
             services.AddScoped<ISqlDataAccess, SqlDataAccess>();
             services.AddScoped<IImageFilesData, ImageFilesData>();
             services.AddScoped<IBugsData, BugsData>();
+            services.AddScoped<IClaimsTransformation, ApplicationUserClaimsTransformation>();
             services.AddMudServices();
 
             Global.ConnectionString = Configuration.GetConnectionString("Default");

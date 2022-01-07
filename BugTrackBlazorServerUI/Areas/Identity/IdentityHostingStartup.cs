@@ -1,4 +1,5 @@
 ﻿using System;
+using BugTrackBlazorServerUI.Areas.Identity.Models;
 using BugTrackBlazorServerUI.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,7 @@ namespace BugTrackBlazorServerUI.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("BugTrackBlazorServerUIContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<BugTrackBlazorServerUIContext>();
             });
         }

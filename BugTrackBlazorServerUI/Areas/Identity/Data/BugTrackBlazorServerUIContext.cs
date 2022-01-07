@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BugTrackBlazorServerUI.Areas.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackBlazorServerUI.Data
 {
-    public class BugTrackBlazorServerUIContext : IdentityDbContext<IdentityUser>
+    public class BugTrackBlazorServerUIContext : IdentityDbContext<ApplicationUser>
     {
         public BugTrackBlazorServerUIContext(DbContextOptions<BugTrackBlazorServerUIContext> options)
             : base(options)
