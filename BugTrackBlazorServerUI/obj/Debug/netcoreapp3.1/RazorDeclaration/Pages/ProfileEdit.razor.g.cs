@@ -177,6 +177,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 #line hidden
 #nullable disable
 #nullable restore
+#line 12 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 13 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
+using BugTrackBlazorServerUI.Data;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 22 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
 [Authorize]
 
@@ -192,7 +206,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 30 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
+#line 33 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
        
     private class EditModel
     {
@@ -224,17 +238,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
     public async Task OnValidSubmit()
     {
+        
+        // update user info
+        user.DisplayName = editModel.DisplayName;
 
-        //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-        //if (Input.PhoneNumber != phoneNumber)
-        //{
-        //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-        //    if (!setPhoneResult.Succeeded)
-        //    {
-        //        StatusMessage = "Unexpected error when trying to set phone number.";
-        //        return RedirectToPage();
-        //    }
-        //}
+        // This is the part that doesn't work
+        var result = await _userManager.UpdateAsync(user);
+
+        // However, it always succeeds inspite of not updating the database
+        if (!result.Succeeded)
+        {
+            // error case
+            return;
+        }
+
+        await _context.SaveChangesAsync();
 
         await _signInManager.RefreshSignInAsync(user);
 
@@ -251,6 +269,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private BugTrackBlazorServerUIContext _context { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider _authenticationStateProvider { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private SignInManager<ApplicationUser> _signInManager { get; set; }

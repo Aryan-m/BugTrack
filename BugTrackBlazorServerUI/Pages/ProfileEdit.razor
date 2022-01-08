@@ -9,11 +9,14 @@
 @using Microsoft.AspNetCore.Identity;
 @using Microsoft.AspNetCore.Mvc;
 @using Microsoft.AspNetCore.Mvc.RazorPages;
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+@using BugTrackBlazorServerUI.Data;
 
 @inject UserManager<ApplicationUser> _userManager
 @inject SignInManager<ApplicationUser> _signInManager
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager NavManager
+@inject BugTrackBlazorServerUIContext _context
 
 <EditForm Model="@editModel" OnValidSubmit="OnValidSubmit">
     <MudCard>
@@ -58,17 +61,21 @@
 
     public async Task OnValidSubmit()
     {
+        
+        // update user info
+        user.DisplayName = editModel.DisplayName;
 
-        //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-        //if (Input.PhoneNumber != phoneNumber)
-        //{
-        //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-        //    if (!setPhoneResult.Succeeded)
-        //    {
-        //        StatusMessage = "Unexpected error when trying to set phone number.";
-        //        return RedirectToPage();
-        //    }
-        //}
+        // This is the part that doesn't work
+        var result = await _userManager.UpdateAsync(user);
+
+        // However, it always succeeds inspite of not updating the database
+        if (!result.Succeeded)
+        {
+            // error case
+            return;
+        }
+
+        await _context.SaveChangesAsync();
 
         await _signInManager.RefreshSignInAsync(user);
 
