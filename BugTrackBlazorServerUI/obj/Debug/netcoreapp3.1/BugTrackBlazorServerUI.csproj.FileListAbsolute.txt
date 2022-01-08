@@ -217,3 +217,5 @@ C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBla
 C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_LoginPartial.cshtml.g.cs
 C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml.g.cs
 C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ViewStart.cshtml.g.cs
+C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\ProfileEdit.razor.g.cs
+C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\obj\Debug\netcoreapp3.1\Razor\Pages\ProfileEdit.razor.g.cs

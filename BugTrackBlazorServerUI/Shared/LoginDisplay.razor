@@ -5,7 +5,7 @@
 <AuthorizeView>
     <Authorized>
         <div class="d-flex align-items-center ml-auto">
-            <a class="font-weight-bold app-header-color mr-2" href="Identity/Account/Manage/Index">
+            <a class="font-weight-bold app-header-color mr-2" href="ProfileEdit">
                 @context.User.Claims.First(c => c.Type == "DisplayName").Value
             </a>
             <form action="/Identity/Account/Logout?returnUrl=%2F" method="post">

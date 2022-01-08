@@ -1,0 +1,84 @@
+﻿@page "/ProfileEdit"
+
+@using System;
+@using System.Collections.Generic;
+@using System.ComponentModel.DataAnnotations;
+@using System.Linq;
+@using System.Threading.Tasks;
+@using BugTrackBlazorServerUI.Areas.Identity.Models;
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.AspNetCore.Mvc.RazorPages;
+
+@inject UserManager<ApplicationUser> _userManager
+@inject SignInManager<ApplicationUser> _signInManager
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject NavigationManager NavManager
+
+<EditForm Model="@editModel" OnValidSubmit="OnValidSubmit">
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Display name"
+                            @bind-Value="editModel.DisplayName" For="@(() => editModel.DisplayName)" />                    
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>
+
+@code {
+    private class EditModel
+    {
+        [Required]
+        public string DisplayName { get; set; }
+    }
+
+    private ApplicationUser user { get; set; }
+    private AuthenticationState authState { get; set; }
+    private EditModel editModel { get; set; } = new EditModel();
+
+    //private async Task LoadAsync(ApplicationUser user)
+    //{
+    //    var userName = await _userManager.GetUserNameAsync(user);
+    //    var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+    //}
+
+    //public async Task<IActionResult> OnGetAsync()
+    //{
+    //    var user = await _userManager.GetUserAsync(User);
+    //    if (user == null)
+    //    {
+    //        return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+    //    }
+
+    //    await LoadAsync(user);
+    //    return Page();
+    //}
+
+    public async Task OnValidSubmit()
+    {
+
+        //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+        //if (Input.PhoneNumber != phoneNumber)
+        //{
+        //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+        //    if (!setPhoneResult.Succeeded)
+        //    {
+        //        StatusMessage = "Unexpected error when trying to set phone number.";
+        //        return RedirectToPage();
+        //    }
+        //}
+
+        await _signInManager.RefreshSignInAsync(user);
+
+        NavManager.NavigateTo("/");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        user = await _userManager.GetUserAsync(authState.User);
+        editModel = new EditModel { DisplayName = user.DisplayName };
+    }
+}

@@ -31,7 +31,7 @@ public class ApplicationUserClaimsTransformation : IClaimsTransformation
 
         if (!principal.HasClaim(c => c.Type == "DisplayName"))
         {
-            identity.AddClaim(new Claim("DisplayName", user.DisplayName));
+            identity.AddClaim(new Claim("DisplayName", (user.DisplayName ?? user.Email)));
 
         }
 
