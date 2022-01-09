@@ -21,11 +21,18 @@
 <EditForm Model="@editModel" OnValidSubmit="OnValidSubmit">
     <MudCard>
         <MudCardContent>
+            <ul class="app-error-list ml-3 mb-3">
+                @foreach(var error in errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
             <MudTextField Label="Display name"
-                            @bind-Value="editModel.DisplayName" For="@(() => editModel.DisplayName)" />                    
+                          @bind-Value="editModel.DisplayName" For="@(() => editModel.DisplayName)" />
         </MudCardContent>
         <MudCardActions>
-            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            @*<MudIconButton  OnClick="@(() => NavManager.NavigateTo("/"))" Color="Color.Primary" Class="ml-auto">Cancel</MudIconButton>*@
+            <MudIconButton Icon="@Icons.Filled.Save" Color="@Color.Dark" ButtonType="ButtonType.Submit" Class="ml-auto">Register</MudIconButton>
         </MudCardActions>
     </MudCard>
 </EditForm>
@@ -40,32 +47,26 @@
     private ApplicationUser user { get; set; }
     private AuthenticationState authState { get; set; }
     private EditModel editModel { get; set; } = new EditModel();
-
-    //private async Task LoadAsync(ApplicationUser user)
-    //{
-    //    var userName = await _userManager.GetUserNameAsync(user);
-    //    var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-    //}
-
-    //public async Task<IActionResult> OnGetAsync()
-    //{
-    //    var user = await _userManager.GetUserAsync(User);
-    //    if (user == null)
-    //    {
-    //        return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-    //    }
-
-    //    await LoadAsync(user);
-    //    return Page();
-    //}
+    private List<string> errors { get; set; } = new List<string>();
 
     public async Task OnValidSubmit()
     {
-        
+        errors.Clear();
+
         // update user info
         user.DisplayName = editModel.DisplayName;
 
-        // This is the part that doesn't work
+        List<ApplicationUser> usersWithSameDisplayName = _context.Users.Where(user => user.DisplayName == editModel.DisplayName).ToList();
+        if (usersWithSameDisplayName.Count >= 2
+            ||
+            (  usersWithSameDisplayName.Count == 1
+            && usersWithSameDisplayName.First().Email != user.Email)
+        ){
+
+            errors.Add("Display name taken! Please choose a different name.");
+            return;
+        }
+
         var result = await _userManager.UpdateAsync(user);
 
         // However, it always succeeds inspite of not updating the database
@@ -77,9 +78,7 @@
 
         await _context.SaveChangesAsync();
 
-        await _signInManager.RefreshSignInAsync(user);
-
-        NavManager.NavigateTo("/");
+        NavManager.NavigateTo("/", forceLoad: true);
     }
 
     protected override async Task OnInitializedAsync()

@@ -5,12 +5,14 @@
 <AuthorizeView>
     <Authorized>
         <div class="d-flex align-items-center ml-auto">
-            <a class="font-weight-bold app-header-color mr-2" href="ProfileEdit">
+            <MudButton Class="app-header-color mr-2"
+                       OnClick="@(() => Navigation.NavigateTo("/ProfileEdit"))">
                 @context.User.Claims.First(c => c.Type == "DisplayName").Value
-            </a>
+            </MudButton>
+            
             <form action="/Identity/Account/Logout?returnUrl=%2F" method="post">
                 <MudButton ButtonType="ButtonType.Submit"
-                           Variant="Variant.Filled"                           
+                           Variant="Variant.Filled"
                            Class="app-header-color app-header-button">
                     Logout
                 </MudButton>

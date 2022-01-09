@@ -206,7 +206,7 @@ using BugTrackBlazorServerUI.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 33 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
+#line 40 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
        
     private class EditModel
     {
@@ -217,32 +217,26 @@ using BugTrackBlazorServerUI.Data;
     private ApplicationUser user { get; set; }
     private AuthenticationState authState { get; set; }
     private EditModel editModel { get; set; } = new EditModel();
-
-    //private async Task LoadAsync(ApplicationUser user)
-    //{
-    //    var userName = await _userManager.GetUserNameAsync(user);
-    //    var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-    //}
-
-    //public async Task<IActionResult> OnGetAsync()
-    //{
-    //    var user = await _userManager.GetUserAsync(User);
-    //    if (user == null)
-    //    {
-    //        return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-    //    }
-
-    //    await LoadAsync(user);
-    //    return Page();
-    //}
+    private List<string> errors { get; set; } = new List<string>();
 
     public async Task OnValidSubmit()
     {
-        
+        errors.Clear();
+
         // update user info
         user.DisplayName = editModel.DisplayName;
 
-        // This is the part that doesn't work
+        List<ApplicationUser> usersWithSameDisplayName = _context.Users.Where(user => user.DisplayName == editModel.DisplayName).ToList();
+        if (usersWithSameDisplayName.Count >= 2
+            ||
+            (  usersWithSameDisplayName.Count == 1
+            && usersWithSameDisplayName.First().Email != user.Email)
+        ){
+
+            errors.Add("Display name taken! Please choose a different name.");
+            return;
+        }
+
         var result = await _userManager.UpdateAsync(user);
 
         // However, it always succeeds inspite of not updating the database
@@ -254,9 +248,7 @@ using BugTrackBlazorServerUI.Data;
 
         await _context.SaveChangesAsync();
 
-        await _signInManager.RefreshSignInAsync(user);
-
-        NavManager.NavigateTo("/");
+        NavManager.NavigateTo("/", forceLoad: true);
     }
 
     protected override async Task OnInitializedAsync()
