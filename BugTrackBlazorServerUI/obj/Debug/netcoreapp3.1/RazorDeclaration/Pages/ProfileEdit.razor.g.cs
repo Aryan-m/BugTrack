@@ -206,7 +206,7 @@ using BugTrackBlazorServerUI.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
+#line 49 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
        
     private class EditModel
     {
@@ -218,6 +218,14 @@ using BugTrackBlazorServerUI.Data;
     private AuthenticationState authState { get; set; }
     private EditModel editModel { get; set; } = new EditModel();
     private List<string> errors { get; set; } = new List<string>();
+    private ImageFileModel imageFile;
+
+    // event callback sent to fileUploadSingle component to save uploaded files
+    protected void saveUploadedFile(ImageFileModel imgFile)
+    {
+        imageFile = imgFile;
+    }
+
 
     public async Task OnValidSubmit()
     {

@@ -130,7 +130,7 @@ using Areas.Identity;
 #line default
 #line hidden
 #nullable disable
-    public partial class FileUpload : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class FileUploadSingle : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -138,49 +138,41 @@ using Areas.Identity;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 37 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Shared\FileUpload.razor"
+#line 31 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Shared\FileUploadSingle.razor"
        
     [Parameter]
-    public EventCallback<List<ImageFileModel>> onFileUpload { get; set; }
+    public EventCallback<ImageFileModel> onFileUpload { get; set; }
 
     [Parameter]
-    public List<ImageFileModel> uploadedFiles { get; set; } = new List<ImageFileModel>();
+    public ImageFileModel uploadedFile { get; set; }
 
     private string _dragEnterStyle;
 
     private async Task OnInputFileChanged(IFileListEntry[] files)
     {
         var fileName = files.FirstOrDefault().Name;
-        if (uploadedFiles.FirstOrDefault(o => o.ImgName == fileName) != null) return;
 
-        foreach (var file in files)
+        using (var ms = new MemoryStream())
         {
-            using (var ms = new MemoryStream())
-            {
 
-                await file.Data.CopyToAsync(ms);
+            await files[0].Data.CopyToAsync(ms);
 
-                uploadedFiles.Add(
-                    new ImageFileModel(
-                          0
-                        , fileName
-                        , ms.ToArray()
-                        , "data:image/jpg;base64," + Convert.ToBase64String(ms.ToArray())
-                    )
-                );
-            }
+            // invoke eventCallback
+            await onFileUpload.InvokeAsync(new ImageFileModel(
+                                0
+                            , fileName
+                            , ms.ToArray()
+                            , "data:image/jpg;base64," + Convert.ToBase64String(ms.ToArray())
+                        ));
         }
-
-        // invoke eventCallback
-        await onFileUpload.InvokeAsync(uploadedFiles);
     }
 
-    private async Task removeFile(ImageFileModel file)
+    private async Task removeFile()
     {
-        uploadedFiles.Remove(file);
+        uploadedFile = null;
 
         // invoke eventCallback
-        await onFileUpload.InvokeAsync(uploadedFiles);
+        await onFileUpload.InvokeAsync(uploadedFile);
     }
 
 #line default

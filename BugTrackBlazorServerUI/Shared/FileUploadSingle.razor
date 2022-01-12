@@ -1,0 +1,66 @@
+﻿@inject ISnackbar Snackbar
+
+<MudPaper @ondragenter="@(()=>_dragEnterStyle="drag-enter")"
+          @ondragleave="@(()=>_dragEnterStyle=null)"
+          @ondragend="@(()=>_dragEnterStyle=null)"
+          Class=@("drag-drop-zone "+ _dragEnterStyle)>
+
+    <InputFile OnChange="OnInputFileChanged" class="drag-drop-input" />
+
+    @if (uploadedFile == null)
+    {
+        <MudText Typo="Typo.h3">Drag and drop your file here or click</MudText>
+    }
+    else
+    {
+
+        <MudChip Color="Color.Dark"
+                    Style="width:60px; overflow:hidden;"
+                    Text="@(uploadedFile.ImgName.Split(".").Last())" />
+        @uploadedFile.ImgName
+        <MudIconButton Icon="@Icons.Filled.Clear"
+                        Size="Size.Small"
+                        Title="Delete"
+                        Style="@($"color:{Colors.Red.Accent4}; z-index: 3;")"
+                        OnClick="@(() => uploadedFile = null)"
+                        Class="ma-2">
+        </MudIconButton>
+    }
+</MudPaper>
+
+@code {
+    [Parameter]
+    public EventCallback<ImageFileModel> onFileUpload { get; set; }
+
+    [Parameter]
+    public ImageFileModel uploadedFile { get; set; }
+
+    private string _dragEnterStyle;
+
+    private async Task OnInputFileChanged(IFileListEntry[] files)
+    {
+        var fileName = files.FirstOrDefault().Name;
+
+        using (var ms = new MemoryStream())
+        {
+
+            await files[0].Data.CopyToAsync(ms);
+
+            // invoke eventCallback
+            await onFileUpload.InvokeAsync(new ImageFileModel(
+                                0
+                            , fileName
+                            , ms.ToArray()
+                            , "data:image/jpg;base64," + Convert.ToBase64String(ms.ToArray())
+                        ));
+        }
+    }
+
+    private async Task removeFile()
+    {
+        uploadedFile = null;
+
+        // invoke eventCallback
+        await onFileUpload.InvokeAsync(uploadedFile);
+    }
+}

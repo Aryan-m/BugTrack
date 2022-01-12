@@ -22,13 +22,22 @@
     <MudCard>
         <MudCardContent>
             <ul class="app-error-list ml-3 mb-3">
-                @foreach(var error in errors)
+                @foreach (var error in errors)
                 {
                     <li>@error</li>
                 }
             </ul>
             <MudTextField Label="Display name"
                           @bind-Value="editModel.DisplayName" For="@(() => editModel.DisplayName)" />
+            <label class="mud-input-label
+                          mud-input-label-animated
+                          mud-input-label-text
+                          mt-2">
+                Profile picture:
+            </label>
+            <div>
+                <FileUploadSingle onFileUpload="@((imgFile) => saveUploadedFile(imgFile))" uploadedFile="imageFile" />
+            </div>
         </MudCardContent>
         <MudCardActions>
             @*<MudIconButton  OnClick="@(() => NavManager.NavigateTo("/"))" Color="Color.Primary" Class="ml-auto">Cancel</MudIconButton>*@
@@ -48,6 +57,14 @@
     private AuthenticationState authState { get; set; }
     private EditModel editModel { get; set; } = new EditModel();
     private List<string> errors { get; set; } = new List<string>();
+    private ImageFileModel imageFile;
+
+    // event callback sent to fileUploadSingle component to save uploaded files
+    protected void saveUploadedFile(ImageFileModel imgFile)
+    {
+        imageFile = imgFile;
+    }
+
 
     public async Task OnValidSubmit()
     {

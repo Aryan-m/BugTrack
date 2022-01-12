@@ -1,7 +1,5 @@
 ﻿@inject ISnackbar Snackbar
 
-<link href="css/FileUpload.css" rel="stylesheet" />
-
 <MudPaper @ondragenter="@(()=>_dragEnterStyle="drag-enter")"
           @ondragleave="@(()=>_dragEnterStyle=null)"
           @ondragend="@(()=>_dragEnterStyle=null)"
@@ -27,7 +25,7 @@
                 <MudIconButton Icon="@Icons.Filled.Clear"
                                Size="Size.Small"
                                Title="Delete"
-                               Style="@($"color:{Colors.Red.Accent4};")"
+                               Style="@($"color:{Colors.Red.Accent4}; z-index: 3;")"
                                OnClick="@(() => removeFile(file))"
                                Class="ma-2"></MudIconButton>
             </MudListItem>
