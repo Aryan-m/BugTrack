@@ -36,7 +36,19 @@
                 Profile picture:
             </label>
             <div>
-                <FileUploadSingle onFileUpload="@((imgFile) => saveUploadedFile(imgFile))" uploadedFile="imageFile" />
+                @if (!String.IsNullOrEmpty(editModel.ImgDataBase64))
+                {
+                    <img src="@editModel.ImgDataBase64" class="rounded-circle" width="50" height="50"/>
+                }
+                <InputFile id="profileImg" OnChange="OnInputFileChanged" class="mud-file-input" accept=".jpg, .jpeg, .png" />
+                <MudIconButton Icon="@Icons.Filled.CloudUpload"
+                               Style="@($"color:{Colors.Indigo.Darken2};")"
+                               ButtonType="ButtonType.Button"
+                               Class="ml-auto"
+                               HtmlTag="label"
+                               for="profileImg">
+                    Upload Picture
+                </MudIconButton>
             </div>
         </MudCardContent>
         <MudCardActions>
@@ -51,27 +63,49 @@
     {
         [Required]
         public string DisplayName { get; set; }
+        public byte[] ImgDataBytes { get; set; }
+        public string ImgDataBase64 { get; set; }
     }
 
     private ApplicationUser user { get; set; }
     private AuthenticationState authState { get; set; }
     private EditModel editModel { get; set; } = new EditModel();
     private List<string> errors { get; set; } = new List<string>();
-    private ImageFileModel imageFile;
 
     // event callback sent to fileUploadSingle component to save uploaded files
     protected void saveUploadedFile(ImageFileModel imgFile)
     {
-        imageFile = imgFile;
+        editModel.ImgDataBytes  = imgFile.ImgDataBytes;
+        editModel.ImgDataBase64 = imgFile.ImgDataBase64;
     }
 
+    private async Task OnInputFileChanged(IFileListEntry[] files)
+    {
+        var fileName = files.FirstOrDefault().Name;
+
+        using (var ms = new MemoryStream())
+        {
+
+            await files[0].Data.CopyToAsync(ms);
+
+            // invoke eventCallback
+            saveUploadedFile(new ImageFileModel(
+                                0
+                            , fileName
+                            , ms.ToArray()
+                            , "data:image/jpg;base64," + Convert.ToBase64String(ms.ToArray())
+                        ));
+        }
+    }
 
     public async Task OnValidSubmit()
     {
         errors.Clear();
 
         // update user info
-        user.DisplayName = editModel.DisplayName;
+        user.DisplayName   = editModel.DisplayName;
+        user.ImgDataBytes  = editModel.ImgDataBytes;
+        user.ImgDataBase64 = editModel.ImgDataBase64;
 
         List<ApplicationUser> usersWithSameDisplayName = _context.Users.Where(user => user.DisplayName == editModel.DisplayName).ToList();
         if (usersWithSameDisplayName.Count >= 2

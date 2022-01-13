@@ -206,33 +206,55 @@ using BugTrackBlazorServerUI.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 49 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
+#line 61 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
        
     private class EditModel
     {
         [Required]
         public string DisplayName { get; set; }
+        public byte[] ImgDataBytes { get; set; }
+        public string ImgDataBase64 { get; set; }
     }
 
     private ApplicationUser user { get; set; }
     private AuthenticationState authState { get; set; }
     private EditModel editModel { get; set; } = new EditModel();
     private List<string> errors { get; set; } = new List<string>();
-    private ImageFileModel imageFile;
 
     // event callback sent to fileUploadSingle component to save uploaded files
     protected void saveUploadedFile(ImageFileModel imgFile)
     {
-        imageFile = imgFile;
+        editModel.ImgDataBytes  = imgFile.ImgDataBytes;
+        editModel.ImgDataBase64 = imgFile.ImgDataBase64;
     }
 
+    private async Task OnInputFileChanged(IFileListEntry[] files)
+    {
+        var fileName = files.FirstOrDefault().Name;
+
+        using (var ms = new MemoryStream())
+        {
+
+            await files[0].Data.CopyToAsync(ms);
+
+            // invoke eventCallback
+            saveUploadedFile(new ImageFileModel(
+                                0
+                            , fileName
+                            , ms.ToArray()
+                            , "data:image/jpg;base64," + Convert.ToBase64String(ms.ToArray())
+                        ));
+        }
+    }
 
     public async Task OnValidSubmit()
     {
         errors.Clear();
 
         // update user info
-        user.DisplayName = editModel.DisplayName;
+        user.DisplayName   = editModel.DisplayName;
+        user.ImgDataBytes  = editModel.ImgDataBytes;
+        user.ImgDataBase64 = editModel.ImgDataBase64;
 
         List<ApplicationUser> usersWithSameDisplayName = _context.Users.Where(user => user.DisplayName == editModel.DisplayName).ToList();
         if (usersWithSameDisplayName.Count >= 2

@@ -130,7 +130,7 @@ using Areas.Identity;
 #line default
 #line hidden
 #nullable disable
-    public partial class FileUploadSingle : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class IconFileUploadSingle : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -138,7 +138,7 @@ using Areas.Identity;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 31 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Shared\FileUploadSingle.razor"
+#line 31 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Shared\IconFileUploadSingle.razor"
        
     [Parameter]
     public EventCallback<ImageFileModel> onFileUpload { get; set; }

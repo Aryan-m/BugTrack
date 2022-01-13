@@ -5,7 +5,7 @@
           @ondragend="@(()=>_dragEnterStyle=null)"
           Class=@("drag-drop-zone "+ _dragEnterStyle)>
 
-    <InputFile OnChange="OnInputFileChanged" multiple class="drag-drop-input" />
+    <InputFile OnChange="OnInputFileChanged" multiple accept=".jpg, .jpeg, .png" class="drag-drop-input" />
 
     @if (uploadedFiles.Count() == 0)
     {
