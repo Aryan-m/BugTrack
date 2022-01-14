@@ -17,6 +17,8 @@
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager NavManager
 @inject BugTrackBlazorServerUIContext _context
+@inject IDialogService Dialog
+
 
 <EditForm Model="@editModel" OnValidSubmit="OnValidSubmit">
     <MudCard>
@@ -38,7 +40,12 @@
             <div>
                 @if (!String.IsNullOrEmpty(editModel.ImgDataBase64))
                 {
-                    <img src="@editModel.ImgDataBase64" class="rounded-circle" width="50" height="50"/>
+                    <button type="button" @onclick="launchEditProfileImgDialog">
+                        <img src="@editModel.ImgDataBase64"
+                             class="rounded-circle"
+                             width="50"
+                             height="50" />
+                    </button>
                 }
                 <InputFile id="profileImg" OnChange="OnInputFileChanged" class="mud-file-input" accept=".jpg, .jpeg, .png" />
                 <MudIconButton Icon="@Icons.Filled.CloudUpload"
@@ -75,7 +82,7 @@
     // event callback sent to fileUploadSingle component to save uploaded files
     protected void saveUploadedFile(ImageFileModel imgFile)
     {
-        editModel.ImgDataBytes  = imgFile.ImgDataBytes;
+        editModel.ImgDataBytes = imgFile.ImgDataBytes;
         editModel.ImgDataBase64 = imgFile.ImgDataBase64;
     }
 
@@ -98,21 +105,38 @@
         }
     }
 
+    private async Task launchEditProfileImgDialog()
+    {
+        var dialog = Dialog.Show<ProfileImgEdit>("Profile Picture"
+                                  , new DialogParameters { ["ImgSrc"] = editModel.ImgDataBase64 }
+                                  , new DialogOptions() { DisableBackdropClick = true }
+                                  );
+
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            editModel.ImgDataBase64 = null;
+            editModel.ImgDataBytes = null;
+        }
+    }
+
     public async Task OnValidSubmit()
     {
         errors.Clear();
 
         // update user info
-        user.DisplayName   = editModel.DisplayName;
-        user.ImgDataBytes  = editModel.ImgDataBytes;
+        user.DisplayName = editModel.DisplayName;
+        user.ImgDataBytes = editModel.ImgDataBytes;
         user.ImgDataBase64 = editModel.ImgDataBase64;
 
         List<ApplicationUser> usersWithSameDisplayName = _context.Users.Where(user => user.DisplayName == editModel.DisplayName).ToList();
         if (usersWithSameDisplayName.Count >= 2
             ||
-            (  usersWithSameDisplayName.Count == 1
+            (usersWithSameDisplayName.Count == 1
             && usersWithSameDisplayName.First().Email != user.Email)
-        ){
+        )
+        {
 
             errors.Add("Display name taken! Please choose a different name.");
             return;
@@ -136,6 +160,13 @@
     {
         authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
         user = await _userManager.GetUserAsync(authState.User);
-        editModel = new EditModel { DisplayName = user.DisplayName };
+        editModel = new EditModel
+        {
+            DisplayName = user.DisplayName
+        ,
+            ImgDataBytes = user.ImgDataBytes
+        ,
+            ImgDataBase64 = user.ImgDataBase64
+        };
     }
 }

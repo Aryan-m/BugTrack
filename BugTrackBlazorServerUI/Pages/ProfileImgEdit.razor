@@ -1,0 +1,38 @@
+﻿<MudDialog>
+    <DialogContent>
+        <div class="w-100 d-flex justify-content-center">
+            <img class="w-50 rounded-circle" src="@ImgSrc" />
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <div class="ml-auto">
+            <MudIconButton OnClick="Delete"
+                           Icon="@Icons.Filled.Delete"
+                           Style="@($"color:{Colors.Red.Accent4};")"
+                           ButtonType="ButtonType.Button">
+                Delete Picture
+            </MudIconButton>
+            <MudIconButton OnClick="Close"
+                           Icon="@Icons.Filled.Close"
+                           Style="@($"color:{Colors.Shades.Black};")"
+                           ButtonType="ButtonType.Button">
+                Close
+            </MudIconButton>
+        </div>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public string ImgSrc { get; set; }
+
+    private void Delete()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private void Close()
+    {
+        MudDialog.Cancel();
+    }
+}

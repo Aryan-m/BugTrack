@@ -206,7 +206,7 @@ using BugTrackBlazorServerUI.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 61 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
+#line 68 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
        
     private class EditModel
     {
@@ -224,7 +224,7 @@ using BugTrackBlazorServerUI.Data;
     // event callback sent to fileUploadSingle component to save uploaded files
     protected void saveUploadedFile(ImageFileModel imgFile)
     {
-        editModel.ImgDataBytes  = imgFile.ImgDataBytes;
+        editModel.ImgDataBytes = imgFile.ImgDataBytes;
         editModel.ImgDataBase64 = imgFile.ImgDataBase64;
     }
 
@@ -247,21 +247,38 @@ using BugTrackBlazorServerUI.Data;
         }
     }
 
+    private async Task launchEditProfileImgDialog()
+    {
+        var dialog = Dialog.Show<ProfileImgEdit>("Profile Picture"
+                                  , new DialogParameters { ["ImgSrc"] = editModel.ImgDataBase64 }
+                                  , new DialogOptions() { DisableBackdropClick = true }
+                                  );
+
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            editModel.ImgDataBase64 = null;
+            editModel.ImgDataBytes = null;
+        }
+    }
+
     public async Task OnValidSubmit()
     {
         errors.Clear();
 
         // update user info
-        user.DisplayName   = editModel.DisplayName;
-        user.ImgDataBytes  = editModel.ImgDataBytes;
+        user.DisplayName = editModel.DisplayName;
+        user.ImgDataBytes = editModel.ImgDataBytes;
         user.ImgDataBase64 = editModel.ImgDataBase64;
 
         List<ApplicationUser> usersWithSameDisplayName = _context.Users.Where(user => user.DisplayName == editModel.DisplayName).ToList();
         if (usersWithSameDisplayName.Count >= 2
             ||
-            (  usersWithSameDisplayName.Count == 1
+            (usersWithSameDisplayName.Count == 1
             && usersWithSameDisplayName.First().Email != user.Email)
-        ){
+        )
+        {
 
             errors.Add("Display name taken! Please choose a different name.");
             return;
@@ -285,12 +302,20 @@ using BugTrackBlazorServerUI.Data;
     {
         authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
         user = await _userManager.GetUserAsync(authState.User);
-        editModel = new EditModel { DisplayName = user.DisplayName };
+        editModel = new EditModel
+        {
+            DisplayName = user.DisplayName
+        ,
+            ImgDataBytes = user.ImgDataBytes
+        ,
+            ImgDataBase64 = user.ImgDataBase64
+        };
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IDialogService Dialog { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private BugTrackBlazorServerUIContext _context { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider _authenticationStateProvider { get; set; }
