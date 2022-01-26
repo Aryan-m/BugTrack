@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using MudBlazor.Services;
 using BugTrackBlazorServerUI.Areas.Identity;
 using Microsoft.AspNetCore.Authentication;
+using Serilog;
 
 namespace BugTrackBlazorServerUI
 {
@@ -59,6 +60,8 @@ namespace BugTrackBlazorServerUI
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
             app.UseAuthentication();

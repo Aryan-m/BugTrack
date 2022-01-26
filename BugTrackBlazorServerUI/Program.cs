@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MudBlazor.Services;
-
+using Serilog;
 
 namespace BugTrackBlazorServerUI
 {
@@ -17,12 +17,36 @@ namespace BugTrackBlazorServerUI
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            // set up serilog
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(config)
+                .CreateLogger();
+
+            try
+            {
+                Log.Information("Application starting...");
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application failed to start!");
+                throw;
+            }
+            finally
+            {
+                // flush all pending messages and close log properly
+                Log.CloseAndFlush();
+            }
             
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();                      
