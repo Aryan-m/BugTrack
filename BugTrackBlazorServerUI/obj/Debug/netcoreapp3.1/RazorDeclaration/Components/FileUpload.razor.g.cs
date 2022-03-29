@@ -69,7 +69,7 @@ using BugTrackBlazorServerUI;
 #nullable disable
 #nullable restore
 #line 9 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
-using BugTrackBlazorServerUI.Shared;
+using BugTrackBlazorServerUI.Components;
 
 #line default
 #line hidden
@@ -109,6 +109,27 @@ using BlazorInputFile;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 15 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+using System.IO;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 16 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+using Areas.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 22 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
+[Authorize]
+
+#line default
+#line hidden
+#nullable disable
     public partial class FileUpload : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -117,19 +138,49 @@ using BlazorInputFile;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 65 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Components\FileUpload.razor"
+#line 37 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Components\FileUpload.razor"
        
-    string _dragEnterStyle;
-    IList<string> fileNames = new List<string>();
-    private void OnInputFileChanged(IFileListEntry[] files)
+    [Parameter]
+    public EventCallback<List<ImageFileModel>> onFileUpload { get; set; }
+
+    [Parameter]
+    public List<ImageFileModel> uploadedFiles { get; set; } = new List<ImageFileModel>();
+
+    private string _dragEnterStyle;
+
+    private async Task OnInputFileChanged(IFileListEntry[] files)
     {
-        fileNames = files.Select(f => f.Name).ToList();
+        var fileName = files.FirstOrDefault().Name;
+        if (uploadedFiles.FirstOrDefault(o => o.ImgName == fileName) != null) return;
+
+        foreach (var file in files)
+        {
+            using (var ms = new MemoryStream())
+            {
+
+                await file.Data.CopyToAsync(ms);
+
+                uploadedFiles.Add(
+                    new ImageFileModel(
+                          0
+                        , fileName
+                        , ms.ToArray()
+                        , "data:image/jpg;base64," + Convert.ToBase64String(ms.ToArray())
+                    )
+                );
+            }
+        }
+
+        // invoke eventCallback
+        await onFileUpload.InvokeAsync(uploadedFiles);
     }
-    void Upload()
+
+    private async Task removeFile(ImageFileModel file)
     {
-        //Upload the files here
-        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
-        Snackbar.Add("TODO: Upload your files!", Severity.Normal);
+        uploadedFiles.Remove(file);
+
+        // invoke eventCallback
+        await onFileUpload.InvokeAsync(uploadedFiles);
     }
 
 #line default

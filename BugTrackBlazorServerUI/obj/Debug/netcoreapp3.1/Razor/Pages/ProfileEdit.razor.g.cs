@@ -63,7 +63,7 @@ using BugTrackBlazorServerUI;
 #nullable disable
 #nullable restore
 #line 9 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
-using BugTrackBlazorServerUI.Shared;
+using BugTrackBlazorServerUI.Components;
 
 #line default
 #line hidden
@@ -201,7 +201,7 @@ using BugTrackBlazorServerUI.Data;
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
             __builder.OpenComponent<Microsoft.AspNetCore.Components.Forms.EditForm>(0);
-            __builder.AddAttribute(1, "Model", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(
+            __builder.AddAttribute(1, "Model", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Object>(
 #nullable restore
 #line 23 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                   editModel
@@ -210,7 +210,7 @@ using BugTrackBlazorServerUI.Data;
 #line hidden
 #nullable disable
             ));
-            __builder.AddAttribute(2, "OnValidSubmit", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Forms.EditContext>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Forms.EditContext>(this, 
+            __builder.AddAttribute(2, "OnValidSubmit", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Forms.EditContext>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Forms.EditContext>(this, 
 #nullable restore
 #line 23 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                                             OnValidSubmit
@@ -240,15 +240,13 @@ using BugTrackBlazorServerUI.Data;
 #nullable disable
                         __builder4.AddContent(14, "                    ");
                         __builder4.OpenElement(15, "li");
-                        __builder4.AddContent(16, 
 #nullable restore
 #line 29 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
-                         error
+__builder4.AddContent(16, error);
 
 #line default
 #line hidden
 #nullable disable
-                        );
                         __builder4.CloseElement();
                         __builder4.AddMarkupContent(17, "\r\n");
 #nullable restore
@@ -277,7 +275,7 @@ using BugTrackBlazorServerUI.Data;
 #line default
 #line hidden
 #nullable disable
-                        , 24, Microsoft.AspNetCore.Components.EventCallback.Factory.Create(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => editModel.DisplayName = __value, editModel.DisplayName)));
+                        , 24, Microsoft.AspNetCore.Components.EventCallback.Factory.Create(this, global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => editModel.DisplayName = __value, editModel.DisplayName)));
                         __builder4.AddMarkupContent(25, "\r\n            ");
                         __builder4.AddMarkupContent(26, "<label class=\"mud-input-label\r\n                          mud-input-label-animated\r\n                          mud-input-label-text\r\n                          mt-2\">\r\n                Profile picture:\r\n            </label>\r\n            ");
                         __builder4.OpenElement(27, "div");
@@ -330,7 +328,7 @@ using BugTrackBlazorServerUI.Data;
                         __builder4.AddContent(41, "                ");
                         __builder4.OpenComponent<BlazorInputFile.InputFile>(42);
                         __builder4.AddAttribute(43, "id", "profileImg");
-                        __builder4.AddAttribute(44, "OnChange", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<BlazorInputFile.IFileListEntry[]>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<BlazorInputFile.IFileListEntry[]>(this, 
+                        __builder4.AddAttribute(44, "OnChange", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<BlazorInputFile.IFileListEntry[]>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<BlazorInputFile.IFileListEntry[]>(this, 
 #nullable restore
 #line 50 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                                                      OnInputFileChanged
@@ -344,7 +342,7 @@ using BugTrackBlazorServerUI.Data;
                         __builder4.CloseComponent();
                         __builder4.AddMarkupContent(47, "\r\n                ");
                         __builder4.OpenComponent<MudBlazor.MudIconButton>(48);
-                        __builder4.AddAttribute(49, "Icon", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.String>(
+                        __builder4.AddAttribute(49, "Icon", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.String>(
 #nullable restore
 #line 51 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                                       Icons.Filled.CloudUpload
@@ -353,7 +351,7 @@ using BugTrackBlazorServerUI.Data;
 #line hidden
 #nullable disable
                         ));
-                        __builder4.AddAttribute(50, "Style", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.String>(
+                        __builder4.AddAttribute(50, "Style", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.String>(
 #nullable restore
 #line 52 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                                         $"color:{Colors.Indigo.Darken2};"
@@ -362,7 +360,7 @@ using BugTrackBlazorServerUI.Data;
 #line hidden
 #nullable disable
                         ));
-                        __builder4.AddAttribute(51, "ButtonType", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<MudBlazor.ButtonType>(
+                        __builder4.AddAttribute(51, "ButtonType", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<MudBlazor.ButtonType>(
 #nullable restore
 #line 53 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                                            ButtonType.Button
@@ -390,7 +388,7 @@ using BugTrackBlazorServerUI.Data;
                     __builder3.AddAttribute(61, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
                         __builder4.AddMarkupContent(62, "\r\n            ");
                         __builder4.OpenComponent<MudBlazor.MudIconButton>(63);
-                        __builder4.AddAttribute(64, "Icon", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.String>(
+                        __builder4.AddAttribute(64, "Icon", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.String>(
 #nullable restore
 #line 63 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                                   Icons.Filled.Save
@@ -399,7 +397,7 @@ using BugTrackBlazorServerUI.Data;
 #line hidden
 #nullable disable
                         ));
-                        __builder4.AddAttribute(65, "Color", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<MudBlazor.Color>(
+                        __builder4.AddAttribute(65, "Color", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<MudBlazor.Color>(
 #nullable restore
 #line 63 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                                                              Color.Dark
@@ -408,7 +406,7 @@ using BugTrackBlazorServerUI.Data;
 #line hidden
 #nullable disable
                         ));
-                        __builder4.AddAttribute(66, "ButtonType", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<MudBlazor.ButtonType>(
+                        __builder4.AddAttribute(66, "ButtonType", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<MudBlazor.ButtonType>(
 #nullable restore
 #line 63 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\Pages\ProfileEdit.razor"
                                                                                      ButtonType.Submit

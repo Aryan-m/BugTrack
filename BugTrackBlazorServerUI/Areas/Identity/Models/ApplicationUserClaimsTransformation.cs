@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Components.Authorization;
 using BugTrackBlazorServerUI.Areas.Identity.Models;
 
 // this class is used to add custom claims to User.identity
@@ -27,7 +24,6 @@ public class ApplicationUserClaimsTransformation : IClaimsTransformation
         if (user == null) return principal;
 
         // Add or replace identity.Claims.
-
 
         if (!principal.HasClaim(c => c.Type == "DisplayName"))
         {

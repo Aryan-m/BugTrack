@@ -62,7 +62,7 @@ using BugTrackBlazorServerUI;
 #nullable disable
 #nullable restore
 #line 9 "C:\Users\kasra\OneDrive\Desktop\Software\Personal Projects\Bug Track\BugTrackBlazorServerUI\_Imports.razor"
-using BugTrackBlazorServerUI.Shared;
+using BugTrackBlazorServerUI.Pages.Shared;
 
 #line default
 #line hidden

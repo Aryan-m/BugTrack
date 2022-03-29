@@ -1,0 +1,19 @@
+01/26/2022 23:05:57 Application starting...
+01/26/2022 23:06:04 HTTP "GET" "/" responded 200 in 3032.1494 ms
+01/26/2022 23:06:05 HTTP "POST" "/_blazor/negotiate?negotiateVersion=1" responded 200 in 250.4571 ms
+01/26/2022 23:16:25 Application starting...
+01/26/2022 23:16:43 HTTP "GET" "/" responded 200 in 14315.1589 ms
+01/26/2022 23:16:43 HTTP "POST" "/_blazor/negotiate?negotiateVersion=1" responded 200 in 231.1906 ms
+01/26/2022 23:18:04 HTTP "GET" "/_blazor?id=GAg3jLTHdhPgBEjTj2v5BQ" responded 101 in 80794.4057 ms
+01/26/2022 23:18:04 HTTP "POST" "/_blazor/disconnect" responded 200 in 283.4642 ms
+03/28/2022 21:15:46 Application starting...
+03/28/2022 21:15:54 HTTP "GET" "/" responded 302 in 1931.6316 ms
+03/28/2022 21:15:55 HTTP "GET" "/Identity/Account/Login?returnUrl=https%3A%2F%2Flocalhost%3A5001%2F" responded 200 in 452.7051 ms
+03/28/2022 21:16:47 User logged in.
+03/28/2022 21:16:47 HTTP "POST" "/Identity/Account/Login?returnUrl=https%3A%2F%2Flocalhost%3A5001%2F" responded 302 in 41239.5619 ms
+03/28/2022 21:16:51 HTTP "GET" "/" responded 200 in 4128.9399 ms
+03/28/2022 21:16:52 HTTP "POST" "/_blazor/negotiate?negotiateVersion=1" responded 200 in 405.1280 ms
+03/28/2022 21:17:38 HTTP "GET" "/" responded 200 in 160.9139 ms
+03/28/2022 21:17:38 HTTP "GET" "/_blazor?id=VD9XgjZkofJQ8LMh_WctyA" responded 101 in 46093.0359 ms
+03/28/2022 21:17:39 HTTP "POST" "/_blazor/disconnect" responded 200 in 322.3434 ms
+03/28/2022 21:17:39 HTTP "POST" "/_blazor/negotiate?negotiateVersion=1" responded 200 in 137.4636 ms
