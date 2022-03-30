@@ -2,20 +2,15 @@ using BugTrackBlazorServerUI.Data;
 using DataAccess.Data;
 using DataAccess.DbAccess;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MudBlazor.Services;
 using BugTrackBlazorServerUI.Areas.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Serilog;
+using BugTrackBlazorServerUI.Classes;
 
 namespace BugTrackBlazorServerUI
 {
@@ -39,6 +34,7 @@ namespace BugTrackBlazorServerUI
             services.AddScoped<IImageFilesData, ImageFilesData>();
             services.AddScoped<IBugsData, BugsData>();
             services.AddScoped<IClaimsTransformation, ApplicationUserClaimsTransformation>();
+            services.AddScoped<IIdentityUserData, IdentityUserData>();
             services.AddMudServices();
 
             Global.ConnectionString = Configuration.GetConnectionString("Default");

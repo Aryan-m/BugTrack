@@ -2,7 +2,6 @@
 using DataAccess.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccess.Data
@@ -29,10 +28,17 @@ namespace DataAccess.Data
         /***************************************************
          * calls insert sproc
          * *************************************************/
-        public async Task<int> Insert(BugModel bug, List<ImageFileModel> imgFiles)
+        public async Task<int> Insert(string userID, BugModel bug, List<ImageFileModel> imgFiles)
         {
-            int bugID = await _db.SaveData("dbo.sp_Bugs_Insert", new { bug.Title, bug.Description });
+            int bugID = await _db.SaveData("dbo.sp_Bugs_Insert"
+                                         , new {
+                                             userID      = userID
+                                           , title       = bug.Title
+                                           , description = bug.Description 
+                                         });
 
+            // If save was unsuccessful, do not proceed further
+            // TODO: throw an error here once global error handling is set up
             if (bugID == 0) return bugID;
 
             // save files
@@ -48,9 +54,16 @@ namespace DataAccess.Data
         /***************************************************
          * calls update sproc
          * *************************************************/
-        public Task Update(BugModel bug, List<ImageFileModel> imgFiles)
+        public Task Update(string userID, BugModel bug, List<ImageFileModel> imgFiles)
         {
-            Task saveBug = _db.SaveData("dbo.sp_Bugs_Update", new { bug });
+            Task saveBug = _db.SaveData("dbo.sp_Bugs_Update"
+                                      , new {
+                                            userID      = userID
+                                          , ID          = bug.ID
+                                          , title       = bug.Title
+                                          , description = bug.Description
+                                      }
+            );
 
             // delete old files and save new ones
             _imgFilesDB.Delete(null, bug.ID);

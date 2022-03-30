@@ -7,8 +7,8 @@ namespace DataAccess.Data
     public interface IBugsData
     {
         Task Delete(long id);
-        Task<int> Insert(BugModel bug, List<ImageFileModel> imgFiles);
-        Task Update(BugModel bug, List<ImageFileModel> imgFiles);
+        Task<int> Insert(string userID, BugModel bug, List<ImageFileModel> imgFiles);
+        Task Update(string userID, BugModel bug, List<ImageFileModel> imgFiles);
         Task<IEnumerable<BugModel>> View(long? id);
     }
 }

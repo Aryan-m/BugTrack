@@ -5,7 +5,7 @@
 	, [Description] nvarchar(max) 
     , [Active] bit not null default 1
 	, [CreatedOn] datetime not null default getdate()
-	, [CreatedByUserID] bigint not null
+	, [CreatedByUserID] NVARCHAR(450) not null
 	, [LastModifiedOn] datetime
-	, [LastModifiedBy] bigint 
+	, [LastModifiedBy] NVARCHAR(450) 
 )

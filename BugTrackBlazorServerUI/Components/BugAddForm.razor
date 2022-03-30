@@ -1,6 +1,10 @@
-﻿@inject IBugsData bugsDB
+﻿@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@inject IBugsData bugsDB
 @inject IImageFilesData imageFilesDB
 @inject ISnackbar Snackbar
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IIdentityUserData IdentityUserData;
 
 <MudDialog>
     <TitleContent>
@@ -28,6 +32,8 @@
 
     private BugModel newBug = new BugModel();
     private List<ImageFileModel> imageFiles = new List<ImageFileModel>();
+    private ClaimsPrincipal currentUser;
+    private string currentUserID;
 
     private void Cancel()
     {
@@ -52,12 +58,12 @@
         try {
             // Add New
             if (newBug.ID == 0) {
-                await bugsDB.Insert(newBug, imageFiles);
+                await bugsDB.Insert(currentUserID, newBug, imageFiles);
             } 
             // Edit
             else
             {
-                await bugsDB.Update(newBug, imageFiles);
+                await bugsDB.Update(currentUserID, newBug, imageFiles);
             }
             indicateSuccess();
         } catch(Exception ex) {
@@ -82,5 +88,12 @@
 
             imageFiles = (await imageFilesDB.View(null, newBug.ID)).ToList();
         }
+
+        // load user
+        // TODO: find a way to do this one time and access it globally
+        currentUser = await IdentityUserData.currentUser();
+        // get user id from user's claims
+        // source: https://stackoverflow.com/a/67469694
+        currentUserID = currentUser.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
     }
 }

@@ -1,12 +1,12 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
-@inject NavigationManager Navigation
+﻿@inject NavigationManager Navigation
 @inject TokenProvider TokenProvider
 
 <AuthorizeView>
     <Authorized>
         <div class="d-flex align-items-center ml-auto">
+            @* username display button, which redirects to "edit profile page" on click *@
             <MudButton Class="app-header-color mr-2"
-                       OnClick="@(() => Navigation.NavigateTo("/ProfileEdit"))">
+                       OnClick="@(() => Navigation.NavigateTo(UserProfiles.URL_EDIT))">
                 @context.User.Claims.First(c => c.Type == "DisplayName").Value
             </MudButton>
             
